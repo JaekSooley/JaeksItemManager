@@ -60,6 +60,7 @@ func new_item(fname):
 			set_item_out_of_date(false)
 			set_database_out_of_date(true)
 			select_item(item_list.find(new_id))
+			$VBoxContainer/HBoxContainer/ItemListContainer/ItemList.select(item_list.size() - 1)
 			print(im_print, "New item created \"", new_id, "\"")
 		else:
 			printerr(im_print, "Invalid JSON \"", fname, "\"!")
@@ -242,7 +243,7 @@ func _on_button_save_pressed():
 		else:
 			printerr(im_print, "\"", json_data[unique_id_key], "\" is not a unique ID!")
 	else:
-		printerr(im_print, "Invalid item JSON!")
+		printerr(im_print, "Invalid JSON!")
 
 
 func _on_button_reset_pressed():
@@ -273,28 +274,30 @@ func _on_item_search_text_changed(new_text):
 
 
 func _on_button_copy_pressed():
-	var json_data = JSON.parse_string($VBoxContainer/HBoxContainer/ItemEditorContainer/EditorHBox/ItemEditor.text)
-	if json_data:
-		var item_already_exists = false
-		
-		if json_data[unique_id_key] in items.keys():
-			json_data[unique_id_key] = str(json_data[unique_id_key], "_", item_list.size() + 1)
-		
-		for i in item_list:
-			if i == json_data[unique_id_key]:
-				if item_list.find(i) != current_item["index"]:
-					item_already_exists = true
-		if !item_already_exists:
-			items[json_data[unique_id_key]] = json_data
-			item_list.append(json_data[unique_id_key])
-			print(im_print, "\"", current_item["name"], "\" updated to \"", json_data[unique_id_key], "\"!")
-			current_item["name"] = json_data[unique_id_key]
-			set_item_out_of_date(false)
-			set_database_out_of_date(true)
-			update_item_list("", false)
-			item_editor_clear()
+	if current_item["index"] != -1:
+		var json_data = JSON.parse_string($VBoxContainer/HBoxContainer/ItemEditorContainer/EditorHBox/ItemEditor.text)
+		if json_data:
+			var item_already_exists = false
+			
+			if json_data[unique_id_key] in items.keys():
+				json_data[unique_id_key] = str(json_data[unique_id_key], "_", item_list.size() + 1)
+			
+			for i in item_list:
+				if i == json_data[unique_id_key]:
+					if item_list.find(i) != current_item["index"]:
+						item_already_exists = true
+			if !item_already_exists:
+				items[json_data[unique_id_key]] = json_data
+				item_list.append(json_data[unique_id_key])
+				print(im_print, "\"", current_item["name"], "\" updated to \"", json_data[unique_id_key], "\"!")
+				current_item["name"] = json_data[unique_id_key]
+				set_item_out_of_date(false)
+				set_database_out_of_date(true)
+				update_item_list("", false)
+				item_editor_clear()
+			else:
+				printerr(im_print, "\"", json_data[unique_id_key], "\" is not a unique ID!")
 		else:
-			printerr(im_print, "\"", json_data[unique_id_key], "\" is not a unique ID!")
+			printerr(im_print, "Invalid item JSON!")
 	else:
-		printerr(im_print, "Invalid item JSON!")
-
+		print(im_print, "Cannot save as new. No item selected.")
