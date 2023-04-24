@@ -1,0 +1,129 @@
+[gd_scene load_steps=2 format=3 uid="uid://p6u5mfglr1vp"]
+
+[ext_resource type="Script" path="res://addons/itemmanager/main_panel.gd" id="1_wk143"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_wk143")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="ItemListContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/ItemListContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="MenuBar" type="MenuBar" parent="VBoxContainer/HBoxContainer/ItemListContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="File" type="PopupMenu" parent="VBoxContainer/HBoxContainer/ItemListContainer/HBoxContainer/MenuBar"]
+size = Vector2i(158, 120)
+item_count = 5
+item_0/text = "Sort Items"
+item_0/id = 3
+item_1/text = "Sync Templates"
+item_1/id = 4
+item_2/text = ""
+item_2/id = 1
+item_2/separator = true
+item_3/text = "Save Database"
+item_3/id = 0
+item_4/text = "Reload Database"
+item_4/id = 2
+
+[node name="Items" type="PopupMenu" parent="VBoxContainer/HBoxContainer/ItemListContainer/HBoxContainer/MenuBar"]
+size = Vector2i(177, 251)
+allow_search = false
+item_count = 1
+item_0/text = "New empty"
+item_0/id = 0
+
+[node name="ItemSearch" type="LineEdit" parent="VBoxContainer/HBoxContainer/ItemListContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Search items..."
+select_all_on_focus = true
+caret_blink = true
+
+[node name="ItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/ItemListContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+item_count = 1
+item_0/text = "empty_new_1"
+
+[node name="ItemEditorContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/ItemEditorContainer"]
+layout_mode = 2
+
+[node name="ButtonDelete" type="Button" parent="VBoxContainer/HBoxContainer/ItemEditorContainer/HBoxContainer"]
+layout_mode = 2
+text = "Delete"
+
+[node name="ButtonReset" type="Button" parent="VBoxContainer/HBoxContainer/ItemEditorContainer/HBoxContainer"]
+layout_mode = 2
+text = "Reset"
+
+[node name="ButtonSave" type="Button" parent="VBoxContainer/HBoxContainer/ItemEditorContainer/HBoxContainer"]
+layout_mode = 2
+text = "Save"
+
+[node name="ButtonSaveNew" type="Button" parent="VBoxContainer/HBoxContainer/ItemEditorContainer/HBoxContainer"]
+layout_mode = 2
+text = "Save As New"
+
+[node name="EditorHBox" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/ItemEditorContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ItemEditor" type="CodeEdit" parent="VBoxContainer/HBoxContainer/ItemEditorContainer/EditorHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+placeholder_text = "Select an item..."
+highlight_all_occurrences = true
+highlight_current_line = true
+draw_tabs = true
+scroll_past_end_of_file = true
+caret_blink = true
+line_folding = true
+gutters_draw_line_numbers = true
+gutters_draw_fold_gutter = true
+auto_brace_completion_enabled = true
+auto_brace_completion_highlight_matching = true
+
+[connection signal="index_pressed" from="VBoxContainer/HBoxContainer/ItemListContainer/HBoxContainer/MenuBar/File" to="." method="_on_database_index_pressed"]
+[connection signal="index_pressed" from="VBoxContainer/HBoxContainer/ItemListContainer/HBoxContainer/MenuBar/Items" to="." method="_on_items_index_pressed"]
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer/ItemListContainer/HBoxContainer/ItemSearch" to="." method="_on_item_search_text_changed"]
+[connection signal="item_clicked" from="VBoxContainer/HBoxContainer/ItemListContainer/ItemList" to="." method="_on_item_list_item_clicked"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/ItemEditorContainer/HBoxContainer/ButtonDelete" to="." method="_on_button_delete_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/ItemEditorContainer/HBoxContainer/ButtonReset" to="." method="_on_button_reset_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/ItemEditorContainer/HBoxContainer/ButtonSave" to="." method="_on_button_save_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/ItemEditorContainer/HBoxContainer/ButtonSaveNew" to="." method="_on_button_copy_pressed"]
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer/ItemEditorContainer/EditorHBox/ItemEditor" to="." method="_on_item_editor_text_changed"]

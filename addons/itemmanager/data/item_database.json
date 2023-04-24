@@ -1,0 +1,7 @@
+{
+	"empty_new_1": {
+		"unique_id": "empty_new_1",
+		"display_name": "New Empty",
+		"item_manager_template": "res://addons/itemmanager/data/item_templates/empty.json"
+	}
+}
