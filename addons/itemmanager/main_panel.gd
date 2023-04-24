@@ -142,15 +142,18 @@ func clear_database():
 
 
 func select_item(index):
-	current_item["index"] = index
-	current_item["name"] = $VBoxContainer/HBoxContainer/ItemListContainer/ItemList.get_item_text(index)
-	$VBoxContainer/HBoxContainer/ItemEditorContainer/EditorHBox/ItemEditor.grab_focus()
-	item_editor_load_item()
+	if !current_item["out_of_date"]:
+		current_item["index"] = index
+		current_item["name"] = $VBoxContainer/HBoxContainer/ItemListContainer/ItemList.get_item_text(index)
+		$VBoxContainer/HBoxContainer/ItemEditorContainer/EditorHBox/ItemEditor.grab_focus()
+		item_editor_load_item()
+	else:
+		print(im_print, "Current item out of date! Save changes before selecting another.")
 
 
 func set_database_out_of_date(state):
 	if state:
-		if !database_out_of_date: printerr(im_print, "Database out of date. Go to File > Save Database to write changes to file.")
+		if !database_out_of_date: print(im_print, "Database out of date.")
 		database_out_of_date = true
 	else:
 		if database_out_of_date: print(im_print, "Database is up to date")
@@ -235,11 +238,14 @@ func _on_button_save_pressed():
 			items.erase(current_item["name"])
 			items[json_data[unique_id_key]] = json_data
 			item_list[current_item["index"]] = json_data[unique_id_key]
-			print(im_print, "\"", current_item["name"], "\" updated to \"", json_data[unique_id_key], "\"!")
+			print(im_print, "Saved \"", current_item["name"], "\" > \"", json_data[unique_id_key], "\"")
 			current_item["name"] = json_data[unique_id_key]
 			set_item_out_of_date(false)
-			set_database_out_of_date(true)
 			update_item_list("", false)
+			if $VBoxContainer/HBoxContainer/ItemEditorContainer/HBoxContainer/CheckButtonUpdateDB.button_pressed:
+				write_database()
+			else:
+				set_database_out_of_date(true)
 		else:
 			printerr(im_print, "\"", json_data[unique_id_key], "\" is not a unique ID!")
 	else:

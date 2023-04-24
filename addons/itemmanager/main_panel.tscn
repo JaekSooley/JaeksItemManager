@@ -84,19 +84,34 @@ layout_mode = 2
 
 [node name="ButtonDelete" type="Button" parent="VBoxContainer/HBoxContainer/ItemEditorContainer/HBoxContainer"]
 layout_mode = 2
+tooltip_text = "Delete the currently selected item"
 text = "Delete"
 
 [node name="ButtonReset" type="Button" parent="VBoxContainer/HBoxContainer/ItemEditorContainer/HBoxContainer"]
 layout_mode = 2
+tooltip_text = "Reset all changes made to item"
 text = "Reset"
 
 [node name="ButtonSave" type="Button" parent="VBoxContainer/HBoxContainer/ItemEditorContainer/HBoxContainer"]
 layout_mode = 2
+tooltip_text = "Save changes to item"
 text = "Save"
 
 [node name="ButtonSaveNew" type="Button" parent="VBoxContainer/HBoxContainer/ItemEditorContainer/HBoxContainer"]
 layout_mode = 2
+tooltip_text = "Saves to new item instead of making changes to current"
 text = "Save As New"
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/ItemEditorContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 1
+text = "Update DB on save"
+
+[node name="CheckButtonUpdateDB" type="CheckButton" parent="VBoxContainer/HBoxContainer/ItemEditorContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+tooltip_text = "Write changes to database file on save"
 
 [node name="EditorHBox" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/ItemEditorContainer"]
 layout_mode = 2
