@@ -1,4 +1,4 @@
-# Item Manager
+# Jaek's Item Manager for Godot
 Just a slightly more user-friendly way to manage a single .json file containing all items in a game.
 
 # Features
