@@ -1,6 +1,8 @@
 # Jaek's Item Manager for Godot
 Just a slightly more user-friendly way to manage a single .json file containing all items in a game.
 
+![image](https://user-images.githubusercontent.com/117260365/234276685-5b26735c-c132-4aa9-942a-2e54186fdb75.png)
+
 # Features
 - Add .json files to the "addons/itemmanager/data/item_templates" folder to define the default keys/values for new items.
 - Multiple template files can be added, which will all appear in the Items drop down menu.
