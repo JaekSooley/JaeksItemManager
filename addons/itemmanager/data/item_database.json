@@ -3,21 +3,5 @@
 		"unique_id": "empty_new_1",
 		"display_name": "New Empty",
 		"item_manager_template": "res://addons/itemmanager/data/item_templates/empty.json"
-	},
-	"weapon_pistol": {
-		"unique_id": "weapon_pistol",
-		"display_name": "Pistol",
-		"fire_rate": 10,
-		"damage": 5,
-		"weight_kg": 1.1,
-		"item_manager_template": "res://addons/itemmanager/data/item_templates/example_item.json"
-	},
-	"weapon_3": {
-		"unique_id": "weapon_3",
-		"display_name": "New Weapon",
-		"fire_rate": 0,
-		"damage": 0,
-		"weight_kg": 0,
-		"item_manager_template": "res://addons/itemmanager/data/item_templates/example_item.json"
 	}
 }

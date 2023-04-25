@@ -19,6 +19,7 @@ var template_key = "item_manager_template"
 var item_database_path = "res://addons/itemmanager/data/item_database.json"
 var default_item_path = "res://addons/itemmanager/data/item_templates/"
 var item_templates = []
+var verbose_output_info = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -32,9 +33,9 @@ func _ready():
 			var option_name = str("New ", f.get_basename())
 			item_templates.append(str(dir.get_current_dir(), "/", f))
 			$VBoxContainer/HBoxContainer/ItemListContainer/HBoxContainer/MenuBar/Items.add_item(option_name)
-			print(im_print, "Found item template \"", dir.get_current_dir(), "/", f, "\"")
+			if verbose_output_info: print(im_print, "Found item template \"", dir.get_current_dir(), "/", f, "\"")
 	else:
-		print("An error occurred when trying to access the path.")
+		if verbose_output_info: print("An error occurred when trying to access the path.")
 	read_database()
 
 
@@ -61,11 +62,13 @@ func new_item(fname):
 			set_database_out_of_date(true)
 			select_item(item_list.find(new_id))
 			$VBoxContainer/HBoxContainer/ItemListContainer/ItemList.select(item_list.size() - 1)
-			print(im_print, "New item created \"", new_id, "\"")
+			if $VBoxContainer/HBoxContainer/ItemEditorContainer/HBoxContainer/CheckButtonUpdateDB.button_pressed:
+				write_database()
+			if verbose_output_info: print(im_print, "New item created \"", new_id, "\"")
 		else:
 			printerr(im_print, "Invalid JSON \"", fname, "\"!")
 	else:
-		print(im_print, "Invalid file \"", fname, "\"")
+		printerr(im_print, "Invalid file \"", fname, "\"")
 
 
 func remove_item(key):
@@ -103,7 +106,7 @@ func write_database():
 		var json_string = JSON.stringify(items, "\t", false)
 		var file = FileAccess.open(item_database_path, FileAccess.WRITE)
 		file.store_string(json_string)
-		print(im_print, "Saved changes to \"", item_database_path, "\"")
+		if verbose_output_info: print(im_print, "Saved changes to \"", item_database_path, "\"")
 		set_database_out_of_date(false)
 	else:
 		printerr(im_print, "Database \"", item_database_path,"\" not found!")
@@ -124,7 +127,7 @@ func read_database():
 			set_database_out_of_date(false)
 			item_editor_clear()
 			$VBoxContainer/HBoxContainer/ItemListContainer/ItemList.grab_focus()
-			print(im_print, "Loaded database from \"", item_database_path, "\"")
+			if verbose_output_info: print(im_print, "Loaded database from \"", item_database_path, "\"")
 
 
 func clear_database():
@@ -148,38 +151,38 @@ func select_item(index):
 		$VBoxContainer/HBoxContainer/ItemEditorContainer/EditorHBox/ItemEditor.grab_focus()
 		item_editor_load_item()
 	else:
-		print(im_print, "Current item out of date! Save changes before selecting another.")
+		if verbose_output_info: print(im_print, "Current item out of date! Save changes before selecting another.")
 
 
 func set_database_out_of_date(state):
 	if state:
-		if !database_out_of_date: print(im_print, "Database out of date.")
+		if !database_out_of_date: if verbose_output_info: print(im_print, "Database out of date.")
 		database_out_of_date = true
 	else:
-		if database_out_of_date: print(im_print, "Database is up to date")
+		if database_out_of_date: if verbose_output_info: print(im_print, "Database is up to date")
 		database_out_of_date = false
 
 
 func set_item_out_of_date(state):
 	if state:
-		if !current_item["out_of_date"]: print(im_print, "\"", current_item["name"], "\" is out of date")
+		if !current_item["out_of_date"]: if verbose_output_info: print(im_print, "\"", current_item["name"], "\" is out of date")
 		current_item["out_of_date"] = true
 	else:
-		if current_item["out_of_date"]: print(im_print, "\"", current_item["name"], "\" is up to date")
+		if current_item["out_of_date"]: if verbose_output_info: print(im_print, "\"", current_item["name"], "\" is up to date")
 		current_item["out_of_date"] = false
 
 
 func sync_items():
-	print(im_print, "Adding missing keys to items...")
+	if verbose_output_info: print(im_print, "Adding missing keys to items...")
 	for template in item_templates:
 		if FileAccess.file_exists(template):
 			var file_string = FileAccess.get_file_as_string(template)
 			var template_data = JSON.parse_string(file_string)
 			if template_data:
-				print("\tloaded \"", template,"\"")
+				if verbose_output_info: print("\tloaded \"", template,"\"")
 				for item_key in items.keys():
 					if items[item_key][template_key] == template:
-						print("\t\tchecking ", item_key, "...")
+						if verbose_output_info: print("\t\tchecking ", item_key, "...")
 						for key in template_data:
 							if !items[item_key].has(key):
 								items[item_key][key] = template_data[key]
@@ -203,10 +206,14 @@ func _on_database_index_pressed(index):
 		1:
 			# Adds missing keys from templates to items using that template.
 			sync_items()
-		3:
+		2:
+			# Toggles non-error console messages.
+			$VBoxContainer/HBoxContainer/ItemListContainer/HBoxContainer/MenuBar/File.toggle_item_checked(index)
+			verbose_output_info = !$VBoxContainer/HBoxContainer/ItemListContainer/HBoxContainer/MenuBar/File.is_item_checked(index)
+		4:
 			# Save database to file
 			write_database()
-		4:
+		5:
 			# Load database from file, overwriting anything currently in editor
 			read_database()
 
@@ -238,7 +245,7 @@ func _on_button_save_pressed():
 			items.erase(current_item["name"])
 			items[json_data[unique_id_key]] = json_data
 			item_list[current_item["index"]] = json_data[unique_id_key]
-			print(im_print, "Saved \"", current_item["name"], "\" > \"", json_data[unique_id_key], "\"")
+			if verbose_output_info: print(im_print, "Saved \"", current_item["name"], "\" > \"", json_data[unique_id_key], "\"")
 			current_item["name"] = json_data[unique_id_key]
 			set_item_out_of_date(false)
 			update_item_list("", false)
@@ -295,7 +302,7 @@ func _on_button_copy_pressed():
 			if !item_already_exists:
 				items[json_data[unique_id_key]] = json_data
 				item_list.append(json_data[unique_id_key])
-				print(im_print, "\"", current_item["name"], "\" updated to \"", json_data[unique_id_key], "\"!")
+				if verbose_output_info: print(im_print, "\"", current_item["name"], "\" updated to \"", json_data[unique_id_key], "\"!")
 				current_item["name"] = json_data[unique_id_key]
 				set_item_out_of_date(false)
 				set_database_out_of_date(true)
@@ -306,4 +313,4 @@ func _on_button_copy_pressed():
 		else:
 			printerr(im_print, "Invalid item JSON!")
 	else:
-		print(im_print, "Cannot save as new. No item selected.")
+		if verbose_output_info: print(im_print, "Cannot save as new. No item selected.")

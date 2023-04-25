@@ -41,26 +41,32 @@ size_flags_vertical = 0
 layout_mode = 2
 
 [node name="File" type="PopupMenu" parent="VBoxContainer/HBoxContainer/ItemListContainer/HBoxContainer/MenuBar"]
-size = Vector2i(158, 120)
-item_count = 5
+size = Vector2i(237, 147)
+item_count = 6
 item_0/text = "Sort Items"
-item_0/id = 3
+item_0/id = 0
 item_1/text = "Sync Templates"
-item_1/id = 4
-item_2/text = ""
-item_2/id = 1
-item_2/separator = true
-item_3/text = "Save Database"
-item_3/id = 0
-item_4/text = "Reload Database"
-item_4/id = 2
+item_1/id = 1
+item_2/text = "Stop flooding the output"
+item_2/checkable = 1
+item_2/checked = true
+item_2/id = 2
+item_3/text = ""
+item_3/id = 3
+item_3/separator = true
+item_4/text = "Save Database"
+item_4/id = 4
+item_5/text = "Reload Database"
+item_5/id = 5
 
 [node name="Items" type="PopupMenu" parent="VBoxContainer/HBoxContainer/ItemListContainer/HBoxContainer/MenuBar"]
 size = Vector2i(177, 251)
 allow_search = false
-item_count = 1
+item_count = 2
 item_0/text = "New empty"
 item_0/id = 0
+item_1/text = "New example_item"
+item_1/id = 1
 
 [node name="ItemSearch" type="LineEdit" parent="VBoxContainer/HBoxContainer/ItemListContainer/HBoxContainer"]
 layout_mode = 2
@@ -112,6 +118,7 @@ text = "Update DB on save"
 layout_mode = 2
 size_flags_horizontal = 8
 tooltip_text = "Write changes to database file on save"
+button_pressed = true
 
 [node name="EditorHBox" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/ItemEditorContainer"]
 layout_mode = 2
