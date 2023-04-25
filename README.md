@@ -11,4 +11,4 @@ Just a slightly more user-friendly way to manage a single .json file containing 
 - Add new keys to items by updating the template file and using *File* > *Sync Templates* to add the missing keys to all items created from that template.
 - Use the search bar to easily find items in the database.
 - All items are stored in the "addons/itemmanager/data/item_database.json" file.
-- Automatically adds an "item_manage_template" key to all items to track which template they were created from.
+- Automatically adds an "item_manager_template" key to all items to track which template they were created from.
