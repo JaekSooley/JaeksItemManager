@@ -78,8 +78,9 @@ caret_blink = true
 [node name="ItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/ItemListContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-item_count = 1
+item_count = 2
 item_0/text = "empty_new_1"
+item_1/text = "weapon_2"
 
 [node name="ItemEditorContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
