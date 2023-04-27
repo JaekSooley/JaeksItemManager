@@ -3,13 +3,5 @@
 		"unique_id": "empty_new_1",
 		"display_name": "New Empty",
 		"item_manager_template": "res://addons/itemmanager/data/item_templates/empty.json"
-	},
-	"weapon_2": {
-		"unique_id": "weapon_2",
-		"display_name": "New Weapon",
-		"fire_rate": 0,
-		"damage": 0,
-		"weight_kg": 0,
-		"item_manager_template": "res://addons/itemmanager/data/item_templates/example_item.json"
 	}
 }

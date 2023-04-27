@@ -1,0 +1,9 @@
+{
+	"verbose_console": false,
+	"keep_db_up_to_date": true,
+	"unique_id_key": "unique_id",
+	"unique_id_key_default_value": "id",
+	"template_key": "item_manager_template",
+	"item_database_path": "res://addons/itemmanager/data/item_database.json",
+	"default_template_path": "res://addons/itemmanager/data/item_templates/"
+}
